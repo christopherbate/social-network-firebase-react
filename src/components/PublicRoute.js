@@ -6,7 +6,7 @@ export default function PublicRoute ({component:Component, authorized, ...rest})
     return(  <Route {...rest} render={ function(props){
             if(isAuthorized()) {
               //console.log("Redirecting to map.");
-              return <Redirect to="/map" {...props}/>;
+              return <Redirect to="/main" {...props}/>;
             } else {
               //console.log("Loading target public route.");
               return <Component {...props}/>;
