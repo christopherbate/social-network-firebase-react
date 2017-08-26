@@ -9,13 +9,45 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 200px;
   padding: 20px;
   color: white;
 }
 
 .App-intro {
   font-size: large;
+}
+
+.HeaderNav {
+  margin-bottom:10px;
+  padding:20px;
+}
+
+.HeaderNav--Link {
+  padding:20px;
+  background-color:white;
+  color:black;
+  border:1px solid black;
+  text-decoration:none;
+}
+
+.HeaderNav--Link:visited{
+  color:black;
+}
+
+.SplashHeader {
+
+}
+
+.SplashButton {
+  display:block;
+  padding:20px;
+  background-color:white;
+  color:black;
+  border:1px solid black;
+  text-decoration:none;
+  margin:0 auto;
+  width:50px;
 }
 
 @keyframes App-logo-spin {

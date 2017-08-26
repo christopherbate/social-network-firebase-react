@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default class FriendList extends React.Component {
+export default class Profile extends React.Component {
   render() {
     return (
       <div>
-        Stuff here.
+        My Profile
       </div>
     );
   }
