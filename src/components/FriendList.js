@@ -4,7 +4,7 @@ export default class FriendList extends React.Component {
   render() {
     return (
       <div>
-        Stuff here.
+        <h2></h2>
       </div>
     );
   }

@@ -6,6 +6,7 @@ export default class Friends extends React.Component {
   render() {
     return (
       <div>
+        <h2>{this.props.user.username} Friends</h2>
         <AddFriend />
         <FriendList />
       </div>

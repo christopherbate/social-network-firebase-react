@@ -27,6 +27,13 @@ export const getUserInfo = function( userInfoCallback ) {
   });
 }
 
+// Login User
+export const loginFBUser = function(email,password,errorCB) {
+  firebaseAuth.signInWithEmailAndPassword(email,password).catch( (error) => {
+      errorCB(error);
+    });
+}
+
 const createUserHelper = function(uid,email,username) {
   firebase.database().ref('userinfo/'+uid).set({
     username:username,

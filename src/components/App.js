@@ -14,14 +14,22 @@ import Signup from './Signup';
 import Login from './Login';
 import Profile from './Profile';
 
+// Models
+import UserInfo from '../model/UserInfo';
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      user: null
+    }
+  }
 
   componentDidMount() {
     this.removeListener = firebaseAuth.onAuthStateChanged( (user) => {
       if(user) {
-        var userInfo = firebaseDB.ref('userinfo/'+ user.uid);
-
-        userInfo.on('value', (snapshot) => {
+        firebaseDB.ref('userinfo/'+ user.uid).on('value', (snapshot) => {
           this.setState({
             user:snapshot.val()
           });
@@ -74,9 +82,9 @@ class App extends Component {
           <PublicRoute exact path="/" component={Splash} />
           <PublicRoute exact path="/signup" component={Signup} />
           <PublicRoute exact path="/login" component={Login} />
-          <PrivateRoute exact path="/friends" component={Friends} />
-          <PrivateRoute exact path="/main" component={MainFeed} />
-          <PrivateRoute exact path="/profile" component={Profile} />
+          <PrivateRoute user={this.state.user} exact path="/friends" component={Friends} />
+          <PrivateRoute user={this.state.user} exact path="/main" component={MainFeed} />
+          <PrivateRoute user={this.state.user} exact path="/profile" component={Profile} />
         </Switch>
       </div>
     );
