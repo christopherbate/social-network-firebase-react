@@ -53,6 +53,7 @@ exports.createUsernameTableEntry = functions.database.ref('/userinfo/{userID}/us
 
   var db = admin.database();
   var username = event.data.val();
+  // TODO: first check and see if that username already exists.
   return db.ref('/usernameToUser/'+username).set({
     uid:event.params.userID
   }).then(()=>{
@@ -68,7 +69,7 @@ exports.checkNewFriend = functions.database.ref('/userinfo/{userID}/friends/{fri
 
     // Check if he exists.
     var db = admin.database();
-    db.ref('/usernameToUser/' + newFriendUsername).once('value').then( snapshot => {
+    return db.ref('/usernameToUser/' + newFriendUsername).once('value').then( snapshot => {
       if(!snapshot.val()) {
         // delete this friend because he doesn't really exist.
         event.data.ref.parent.remove();
@@ -76,7 +77,5 @@ exports.checkNewFriend = functions.database.ref('/userinfo/{userID}/friends/{fri
         // this is a legit friend.
       }
     });
-
-    return;
   }
 )
