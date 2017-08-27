@@ -12,18 +12,14 @@ export const firebaseDB = firebase.database();
 // Signup user.
 export const createFBUser = function(email,password,username,errorCB) {
   firebase.auth().createUserWithEmailAndPassword(email,password).then( (user) => {
+
+    // TODO: Cloud function
     if(user){
-        createUserHelper(user.uid,email,username);
+        // Set the user's username.
+        firebaseDB.ref('userinfo/'+user.uid).update({username:username});
     }
   }).catch((error)=>{
     errorCB(error);
-  });
-}
-
-// Get user Info funciton
-export const getUserInfo = function( userInfoCallback ) {
-  firebaseDB.ref('userinfo/'+firebaseAuth.currentUser.uid).once("value", (snapshot)=>{
-    userInfoCallback(snapshot);
   });
 }
 
@@ -34,33 +30,9 @@ export const loginFBUser = function(email,password,errorCB) {
     });
 }
 
-const createUserHelper = function(uid,email,username) {
-  firebase.database().ref('userinfo/'+uid).set({
-    username:username,
-    email:email,
-    friends:null,
-    posts:null
-  },(error) => {
-    if(error) {
-      console.log(error.message);
-    }
-  });
+// This needs to be a cloud function
+const addFriend = function(username) {
 
-  firebase.database().ref("emailToUser/"+removeDots(email)).set({
-    userid:uid
-  },(error) => {
-    if(error) {
-      console.log(error.message);
-    }
-  });
-
-  firebase.database().ref("usernameToUser/"+removeDots(username)).set({
-    userid:uid
-  },(error) => {
-    if(error) {
-      console.log(error.message);
-    }
-  });
 }
 
 const removeDots = function(item) {

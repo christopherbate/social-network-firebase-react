@@ -35,7 +35,9 @@ class App extends Component {
           });
         });
       } else {
-
+        this.setState({
+          user:null
+        });
       }
     });
   }
@@ -79,9 +81,9 @@ class App extends Component {
           </nav>
         </div>
         <Switch>
-          <PublicRoute exact path="/" component={Splash} />
-          <PublicRoute exact path="/signup" component={Signup} />
-          <PublicRoute exact path="/login" component={Login} />
+          <PublicRoute exact user={this.state.user} path="/" component={Splash} />
+          <PublicRoute exact user={this.state.user} path="/signup" component={Signup} />
+          <PublicRoute exact user={this.state.user} path="/login" component={Login} />
           <PrivateRoute user={this.state.user} exact path="/friends" component={Friends} />
           <PrivateRoute user={this.state.user} exact path="/main" component={MainFeed} />
           <PrivateRoute user={this.state.user} exact path="/profile" component={Profile} />

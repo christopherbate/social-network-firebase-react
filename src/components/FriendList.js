@@ -1,10 +1,18 @@
 import React from 'react';
 
 export default class FriendList extends React.Component {
+
+  renderFriends() {
+    if(this.props.friends) {
+      return this.props.friends.map( friend => (<p>{friend.username}</p>));
+    }
+  }
+
   render() {
     return (
       <div>
-        <h2></h2>
+        <h3>Friend List</h3>
+        {this.renderFriends()}
       </div>
     );
   }
