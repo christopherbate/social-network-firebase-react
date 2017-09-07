@@ -1,7 +1,22 @@
+//------------------------------------------------------------------------
+// App.js
+// Author: Christopher Bate
+// Description: Contains the root React component for the application.
+// This component is loaded by index.js in the /src/ directory
+// Upon loading, establishes listener to firebaseAuth object
+// Renders the entire navigation bar, and below it, the various views depending
+// on the route.
+//------------------------------------------------------------------------
+
+// Framework Imports
 import React, { Component } from 'react';
 import {Link,Switch,Route} from 'react-router-dom';
+
+// Local style / resource imports
 import logo from '../logo.svg';
 import '../styles/App.css';
+
+// App-specific imports
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import {firebaseAuth,firebaseDB} from '../Firebase';
