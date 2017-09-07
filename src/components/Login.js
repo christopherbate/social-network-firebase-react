@@ -1,3 +1,12 @@
+//------------------------------------------------------------------------
+// Login.js
+// Author: Christopher Bate
+// Description: Renders login view, handles form submission by
+// calling the loginFBUser method from our Firebase Social Network framework file
+// Updates its error state by providing a callback
+// TODO: Change these callbacks to promises.
+//------------------------------------------------------------------------
+
 import React from 'react';
 import {loginFBUser} from '../Firebase';
 
