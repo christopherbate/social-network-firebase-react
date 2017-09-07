@@ -1,8 +1,8 @@
-## overview
+## Overview
 
 This project is an example of how to create basic social networking functionality with React and Google Firebase.
 
-## installation / use
+## Installation / Use
 
 Use create-react-app to create a basic React App.
 
@@ -10,7 +10,9 @@ Create a new web project in Google Firebase. Under "Authentication", turn on ema
 
 You can take a look at the "src" folder for how this project was structured, or just copy it in over your Create-React-App source folder.
 
-You must add a file called "FBConfig.js" to the "/src/" folder that creates a default export of your Firebase Configuration variables (you get this from your Firebase console). 
+Dependencies: react-router-dom, firebase, firebase-tools
+
+You must add a file called "FBConfig.js" to the "/src/" folder that creates a default export of your Firebase Configuration variables (you get this from your Firebase console).
 
 ## Features
 
