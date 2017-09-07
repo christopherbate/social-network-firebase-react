@@ -1,4 +1,14 @@
+//------------------------------------------------------------------------
+// Splash.js
+// Author: Christopher Bate
+// Description: Signup screen view.
+// Renders the signup form and any associated errors recieved.
+// For signup, calls the associated framework function from Firebase.js in
+// /src/ folder
+//------------------------------------------------------------------------
 import React from 'react';
+
+// We only need this one function from our Firebase framework.
 import {createFBUser} from '../Firebase';
 
 export default class Signup extends React.Component {

@@ -1,3 +1,10 @@
+//------------------------------------------------------------------------
+// Splash.js
+// Author: Christopher Bate
+// Description: Renders the "splash screen", which consists  of just
+//    signup and login buttons.
+//------------------------------------------------------------------------
+
 import React from 'react';
 
 import {Link} from 'react-router-dom';
