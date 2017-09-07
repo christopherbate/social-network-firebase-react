@@ -1,3 +1,10 @@
+//------------------------------------------------------------------------
+// PrivateRoute.js
+// Author: Christopher Bate
+// Description: Used instead of <Route> in order to disallow users that
+// are not logged in from accessing a protected view.
+// Redirects users to "/login" path.
+//------------------------------------------------------------------------
 import {Redirect,Route} from 'react-router-dom';
 import React from 'react';
 import {isAuthorized} from '../Firebase';

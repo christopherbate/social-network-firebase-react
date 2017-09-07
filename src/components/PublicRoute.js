@@ -1,3 +1,9 @@
+//------------------------------------------------------------------------
+// PublicRoute.js
+// Author: Christopher Bate
+// Description: Used instead of <Route> in order to disallow users that
+// are already logged in from seing a public view (usually, splash page, login page, etc)
+//------------------------------------------------------------------------
 import {Redirect,Route} from 'react-router-dom';
 import React from 'react';
 import {isAuthorized} from '../Firebase';
