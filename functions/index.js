@@ -49,6 +49,15 @@ exports.createUserEmailEntry = functions.auth.user().onCreate( event => {
   })
 });
 
+exports.processPost = functions.database.ref('/posts/{userID}/{postID}').onWrite(
+  event => {
+    const postInfo = event.data.val();
+    console.log("User" + userID +" posted: " + postInfo);
+
+    // Perform hashtag processing 
+  }
+);
+
 exports.createUsernameTableEntry = functions.database.ref('/userinfo/{userID}/username').onWrite( event => {
 
   var db = admin.database();
@@ -78,4 +87,4 @@ exports.checkNewFriend = functions.database.ref('/userinfo/{userID}/friends/{fri
       }
     });
   }
-)
+);
