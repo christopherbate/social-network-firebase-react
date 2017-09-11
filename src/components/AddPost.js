@@ -4,6 +4,7 @@
 // Adds a post to the currentUser's post set
 //----------------------------------------------------------------------
 import React from 'react';
+import {firebaseDB, addPost} from '../Firebase';
 
 
 export default class AddPost extends React.Component {
@@ -13,6 +14,13 @@ export default class AddPost extends React.Component {
 
   submitPost(e) {
     e.preventDefault();
+
+    console.log(this.refs.message.value);
+    console.log("Posted");
+
+    addPost(this.refs.message.value);
+
+
   }
 
   render() {
@@ -21,7 +29,8 @@ export default class AddPost extends React.Component {
       <div className="AddPost">
         <h3 className="AddPostTitle">Add Post</h3>
         <form onSubmit={this.submitPost.bind(this)}>
-          <textarea cols="25" rows="7"></textarea>
+          <textarea cols="25" rows="7" ref="message"></textarea>
+          <br/>
           <button>Post</button>
         </form>
       </div>

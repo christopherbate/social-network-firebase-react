@@ -30,6 +30,15 @@ export const loginFBUser = function(email,password,errorCB) {
     });
 }
 
+export const addPost = function( postMessage ) {
+  var newPostRef = firebaseDB.ref('/posts/'+firebaseAuth.currentUser.uid).push();
+
+  newPostRef.set({
+    "message":postMessage
+  });
+
+}
+
 // This needs to be a cloud function
 const addFriend = function(username) {
 
