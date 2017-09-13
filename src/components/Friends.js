@@ -5,8 +5,6 @@
 // Friends View consists of an "Add Friend" component and a list of friends.
 // Right now, this component is directly listening to the current user's
 // friends list and provindg updates to the components.
-// TODO: Information for the application state possibly could be transferred
-//        to a central store a'la REDUX.  More to follow.
 // Updates its error state by providing a callback
 // TODO: Change these callbacks to promises.
 //------------------------------------------------------------------------
@@ -16,13 +14,6 @@ import FriendList from './FriendList';
 import {firebaseDB, firebaseAuth} from '../Firebase';
 
 export default class Friends extends React.Component {
-  constructor(props){
-    super(props);
-    /*this.state= {
-      friendsList:[]
-    };*/
-  }
-
   renderFriendsList() {
     if(this.props.friendsList) {
       return(<FriendList friends={this.props.friendsList} />);
@@ -30,21 +21,6 @@ export default class Friends extends React.Component {
     } else {
       return(<FriendList friends={null} />);
     }
-  }
-
-  componentDidMount() {
-    /* firebaseDB.ref('userinfo/' + firebaseAuth.currentUser.uid+'/friends/').orderByChild("username")
-    .on("value", snapshot=> {
-      let friendsList = [];
-      snapshot.forEach( child => {
-        friendsList.push({username:child.val().username});
-      });
-      this.setState({friendsList:friendsList});
-    }); */
-  }
-
-  componentWillUnmount() {
-    //firebaseDB.ref('userinfo/'+firebaseAuth.currentUser.uid+'/friends/').off();
   }
 
   render() {
