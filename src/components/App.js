@@ -37,28 +37,59 @@ class App extends Component {
     super(props);
 
     this.state = {
-      user: null
-    }
+      user: null,
+      friendsList: []
+    };
   }
 
   componentDidMount() {
+
+    // Mount listeners for things we need to track:
+    // 1) Auth state
+    // 2) User friends
+    // 3) PostIDs on the User's "Main Feed"
+
+    // Auth state.
+    // On authStateChanged returns the funciton to remove the listener.
     this.removeListener = firebaseAuth.onAuthStateChanged( (user) => {
       if(user) {
         firebaseDB.ref('userinfo/'+ user.uid).on('value', (snapshot) => {
+          console.log("User logged in: " + user.uid)
           this.setState({
             user:snapshot.val()
           });
+
+          // Set the listener for User friends
+          firebaseDB.ref('userinfo/' + firebaseAuth.currentUser.uid+'/friends/').orderByChild("username")
+          .on("value", snapshot=> {
+            let friendsList = [];
+            snapshot.forEach( child => {
+              friendsList.push({username:child.val().username});
+            });
+            this.setState({friendsList:friendsList});
+          });
         });
       } else {
+        console.log("User status null / logged out");
         this.setState({
           user:null
         });
       }
     });
+
+
   }
 
   componentWillUnmount() {
+
+    // Remove Listeners from componentDidMount/
+
+    // Auth state
     this.removeListener();
+
+    // Friends
+    firebaseDB.ref('userinfo/'+firebaseAuth.currentUser.uid+'/friends/').off();
+
   }
 
   onLogout() {
@@ -99,7 +130,7 @@ class App extends Component {
           <PublicRoute exact user={this.state.user} path="/" component={Splash} />
           <PublicRoute exact user={this.state.user} path="/signup" component={Signup} />
           <PublicRoute exact user={this.state.user} path="/login" component={Login} />
-          <PrivateRoute user={this.state.user} exact path="/friends" component={Friends} />
+          <PrivateRoute user={this.state.user} friendsList={this.state.friendsList} exact path="/friends" component={Friends} />
           <PrivateRoute user={this.state.user} exact path="/main" component={MainFeed} />
           <PrivateRoute user={this.state.user} exact path="/profile" component={Profile} />
         </Switch>

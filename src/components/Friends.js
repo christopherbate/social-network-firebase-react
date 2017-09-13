@@ -18,14 +18,14 @@ import {firebaseDB, firebaseAuth} from '../Firebase';
 export default class Friends extends React.Component {
   constructor(props){
     super(props);
-    this.state= {
+    /*this.state= {
       friendsList:[]
-    };
+    };*/
   }
 
   renderFriendsList() {
-    if(this.state.friendsList) {
-      return(<FriendList friends={this.state.friendsList} />);
+    if(this.props.friendsList) {
+      return(<FriendList friends={this.props.friendsList} />);
 
     } else {
       return(<FriendList friends={null} />);
@@ -33,14 +33,18 @@ export default class Friends extends React.Component {
   }
 
   componentDidMount() {
-    this.friendsListener = firebaseDB.ref('userinfo/' + firebaseAuth.currentUser.uid+'/friends/').orderByChild("username")
+    /* firebaseDB.ref('userinfo/' + firebaseAuth.currentUser.uid+'/friends/').orderByChild("username")
     .on("value", snapshot=> {
       let friendsList = [];
       snapshot.forEach( child => {
         friendsList.push({username:child.val().username});
       });
       this.setState({friendsList:friendsList});
-    });
+    }); */
+  }
+
+  componentWillUnmount() {
+    //firebaseDB.ref('userinfo/'+firebaseAuth.currentUser.uid+'/friends/').off();
   }
 
   render() {

@@ -36,7 +36,10 @@ export const addPost = function( postMessage ) {
   newPostRef.set({
     "message":postMessage
   });
+}
 
+export const getPosts = function() {
+  
 }
 
 // This needs to be a cloud function
