@@ -68,6 +68,16 @@ class App extends Component {
             });
             this.setState({friendsList:friendsList});
           });
+
+          // Set the listener for postList
+          firebaseDB.ref('userinfo/' + firebaseAuth.currentUser.uid + '/feedList/').orderByChild("timeStamp")
+          .on( "value", snapshot=> {
+            let postList = [];
+            snapshot.forEach( child => {
+              postList.push({content:child.val().content});
+            });
+            this.setState({postList:postList});
+          });
         });
       } else {
         console.log("User status null / logged out");
@@ -81,9 +91,7 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-
     // Remove Listeners from componentDidMount/
-
     // Auth state
     this.removeListener();
 
@@ -131,7 +139,8 @@ class App extends Component {
           <PublicRoute exact user={this.state.user} path="/signup" component={Signup} />
           <PublicRoute exact user={this.state.user} path="/login" component={Login} />
           <PrivateRoute user={this.state.user} friendsList={this.state.friendsList} exact path="/friends" component={Friends} />
-          <PrivateRoute user={this.state.user} exact path="/main" component={MainFeed} />
+          <PrivateRoute user={this.state.user} friendsList={this.state.friendsList}
+                        postList={this.state.postList} exact path="/main" component={MainFeed} />
           <PrivateRoute user={this.state.user} exact path="/profile" component={Profile} />
         </Switch>
       </div>
