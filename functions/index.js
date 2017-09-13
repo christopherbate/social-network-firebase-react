@@ -96,11 +96,23 @@ exports.createUsernameTableEntry = functions.database.ref('/userinfo/{userID}/us
 exports.processPost = functions.database.ref('/posts/{userID}/{postID}').onWrite(
   event => {
     const postInfo = event.data.val();
-    console.log("User" + userID +" posted: " + postInfo);
+    var userID = event.params.userID;
+    var postID = event.params.postID;
+    var db = admin.database();
+    console.log("User" + userID +" posted: " + postInfo.content + "at" + postInfo.DTS);
 
     // Grab that user's friendsList
-    var friendsRef = db.ref('/userInfo/{userID}/friends');
-    
+    var friendsRef = db.ref('/userinfo/' + userID + '/friends');
+    var feedRef = db.ref('/userinfo/' + userID + '/feedList');
+
+    // Add the post to the user's postList
+    var userFeedListRef = feedRef.push();
+    return userFeedListRef.set({
+      userID: userID,
+      postID: postID,
+      content: postInfo.content,
+      timeStamp: postInfo.timeStamp
+    });
   }
 );
 
