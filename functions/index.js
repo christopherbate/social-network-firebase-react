@@ -93,27 +93,24 @@ exports.createUsernameTableEntry = functions.database.ref('/userinfo/{userID}/us
 // to relevant users' feed list
 // Triggers:
 //------------------------------------------------------------------------
-exports.processPost = functions.database.ref('/posts/{userID}/{postID}').onWrite(
+exports.processPost = functions.database.ref('/posts/{userID}/{postID}').onCreate(
   event => {
     const postInfo = event.data.val();
     var userID = event.params.userID;
     var postID = event.params.postID;
-    var author = "Unknown";
+    var author = "Friend";
     var db = admin.database();
-    console.log("User" + userID +" posted: " + postInfo.content + "at" + postInfo.timeStamp);
+    console.log("User" + userID +" posted: " + postInfo.content + " at " + postInfo.timeStamp);
 
-    // Get the author username.
-    db.ref('/userinfo/'+userID+'/username').once('value').then( (snapshot) => {
-      author = snapshot.val();
-    });
 
-    // Grab that user's friendsList
+
+    // Grab refs to the friends list and the user's own feed.
     var friendsRef = db.ref('/userinfo/' + userID + '/friends');
     var feedRef = db.ref('/userinfo/' + userID + '/feedList');
 
-    // Add the post to the user's postList
+    // Add the post to the user's own feed.
     var userFeedListRef = feedRef.push();
-    return userFeedListRef.set({
+    userFeedListRef.set({
       userID: userID,
       postID: postID,
       author: author,
@@ -121,13 +118,21 @@ exports.processPost = functions.database.ref('/posts/{userID}/{postID}').onWrite
       timeStamp: postInfo.timeStamp
     });
 
+    // Get the author username.
+    db.ref('/userinfo/'+userID+'/username').once('value').then( (snapshot) => {
+      author = snapshot.val();
+      userFeedListRef.update({
+        author:author
+      });
+    });
+
     // Add the post to the users' friends postLists
     friendsRef.once('value').then((snapshot)=> {
-      snapshot.forEach(function(childSnapshot) {
-        var fusername = childShanpshot.val().username;
-        console.log("Adding post to friend: " + fusername );
+      snapshot.forEach( (childSnapshot) => {
+        var friendID = childSnapshot.val().friendID;
+        console.log("Adding post to friend: " + friendID );
       });
-    })
+    });
   }
 );
 
@@ -136,7 +141,7 @@ exports.processPost = functions.database.ref('/posts/{userID}/{postID}').onWrite
 // Runs everytime a user adds a new friend.
 // Checks to see whether that friend is a real user. If not, it deletes the friend.
 //------------------------------------------------------------------------
-exports.checkNewFriend = functions.database.ref('/userinfo/{userID}/newFriends/{friendID}/username').onWrite(
+exports.checkNewFriend = functions.database.ref('/userinfo/{userID}/newFriends/{friendID}/username').onCreate(
   event => {
     const newFriendUsername = event.data.val();
     //console.log(newFriendUsername);
