@@ -32,6 +32,7 @@ export const loginFBUser = function(email,password,errorCB) {
 
 export const addPost = function( postMessage ) {
   var newPostRef = firebaseDB.ref('/posts/'+firebaseAuth.currentUser.uid).push();
+  // TODO: we need to move time tracking to the server...
   var date = Date.now();
   newPostRef.set({
     "timeStamp":date,
