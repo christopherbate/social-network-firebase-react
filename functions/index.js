@@ -98,8 +98,14 @@ exports.processPost = functions.database.ref('/posts/{userID}/{postID}').onWrite
     const postInfo = event.data.val();
     var userID = event.params.userID;
     var postID = event.params.postID;
+    var author = "Unknown";
     var db = admin.database();
-    console.log("User" + userID +" posted: " + postInfo.content + "at" + postInfo.DTS);
+    console.log("User" + userID +" posted: " + postInfo.content + "at" + postInfo.timeStamp);
+
+    // Get the author username.
+    db.ref('/userinfo/'+userID+'/username').once('value').then( (snapshot) => {
+      author = snapshot.val();
+    });
 
     // Grab that user's friendsList
     var friendsRef = db.ref('/userinfo/' + userID + '/friends');
@@ -110,9 +116,18 @@ exports.processPost = functions.database.ref('/posts/{userID}/{postID}').onWrite
     return userFeedListRef.set({
       userID: userID,
       postID: postID,
+      author: author,
       content: postInfo.content,
       timeStamp: postInfo.timeStamp
     });
+
+    // Add the post to the users' friends postLists
+    friendsRef.once('value').then((snapshot)=> {
+      snapshot.forEach(function(childSnapshot) {
+        var fusername = childShanpshot.val().username;
+        console.log("Adding post to friend: " + fusername );
+      });
+    })
   }
 );
 
@@ -121,19 +136,32 @@ exports.processPost = functions.database.ref('/posts/{userID}/{postID}').onWrite
 // Runs everytime a user adds a new friend.
 // Checks to see whether that friend is a real user. If not, it deletes the friend.
 //------------------------------------------------------------------------
-exports.checkNewFriend = functions.database.ref('/userinfo/{userID}/friends/{friendID}/username').onWrite(
+exports.checkNewFriend = functions.database.ref('/userinfo/{userID}/newFriends/{friendID}/username').onWrite(
   event => {
     const newFriendUsername = event.data.val();
-    console.log(newFriendUsername);
+    //console.log(newFriendUsername);
+    console.log("User " + event.params.userID + "adding friend: " + newFriendUsername);
 
+    const removeDots = function(item) {
+      return item.replace(/\./g,"_DOT_");
+    }
+    var usernameKey = removeDots(newFriendUsername)
     // Check if he exists.
     var db = admin.database();
-    return db.ref('/usernameToUser/' + newFriendUsername).once('value').then( snapshot => {
+    return db.ref('/usernameToUser/' + usernameKey).once('value').then( snapshot => {
       if(!snapshot.val()) {
         // delete this friend because he doesn't really exist.
         event.data.ref.parent.remove();
       } else {
         // this is a legit friend.
+        var friendsListRef = db.ref('/userinfo/'+event.params.userID+'/friends').push();
+        friendsListRef.set( {
+          friendID: snapshot.val().uid,
+          friendUsername: newFriendUsername
+        });
+
+        // remove the request.
+        event.data.ref.parent.remove();
       }
     });
   }
