@@ -15,6 +15,7 @@ export default class AddPost extends React.Component {
   submitPost(e) {
     e.preventDefault();
     addPost(this.refs.message.value);
+    this.refs.message.value = '';
   }
 
   render() {
