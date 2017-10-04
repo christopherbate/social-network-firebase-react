@@ -19,8 +19,10 @@ export default class AddFriend extends React.Component {
       return item.replace(/\./g,"_DOT_");
     }
     e.preventDefault();
-    firebaseDB.ref("userinfo/"+firebaseAuth.currentUser.uid+"/friends/"+removeDots(this.refs.username.value.trim())).set({
+    var newFriendsRef = firebaseDB.ref('userinfo/'+firebaseAuth.currentUser.uid+'/newFriends/').push();
+    newFriendsRef.set({
       username: this.refs.username.value.trim()
     });
+    this.refs.username.value = "";
   }
 }
