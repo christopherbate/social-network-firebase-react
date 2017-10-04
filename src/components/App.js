@@ -53,32 +53,35 @@ class App extends Component {
     // On authStateChanged returns the funciton to remove the listener.
     this.removeListener = firebaseAuth.onAuthStateChanged( (user) => {
       if(user) {
-        firebaseDB.ref('userinfo/'+ user.uid).on('value', (snapshot) => {
-          console.log("User logged in: " + user.uid)
-          this.setState({
+          // Setup the user profile listener.
+          firebaseDB.ref('userinfo/'+ user.uid).on('value', (snapshot) => {
+            console.log("User logged in: " + user.uid)
+            this.setState({
             user:snapshot.val()
+            });
           });
 
           // Set the listener for User friends
-          firebaseDB.ref('userinfo/' + firebaseAuth.currentUser.uid+'/friends/').orderByChild("username")
+          firebaseDB.ref('userinfo/' + firebaseAuth.currentUser.uid+'/friends/').orderByChild("friendUsername")
           .on("value", snapshot=> {
             let friendsList = [];
             snapshot.forEach( child => {
-              friendsList.push({username:child.val().username});
+              friendsList.push({username:child.val().friendUsername});
             });
             this.setState({friendsList:friendsList});
           });
 
           // Set the listener for postList
+          // TODO: fix the time stamp stuff
           firebaseDB.ref('userinfo/' + firebaseAuth.currentUser.uid + '/feedList/').orderByChild("timeStamp")
           .on( "value", snapshot=> {
             let postList = [];
             snapshot.forEach( child => {
-              postList.push({content:child.val().content});
+              postList.push(child.val());
             });
             this.setState({postList:postList});
           });
-        });
+
       } else {
         console.log("User status null / logged out");
         this.setState({
