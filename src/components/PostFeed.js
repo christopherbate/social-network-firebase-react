@@ -7,12 +7,13 @@
 //----------------------------------------------------------------------=====
 import React from 'react';
 import {firebaseDB} from '../Firebase';
+import PostContainer from './PostContainer';
 
 export default class PostFeed extends React.Component {
 
   renderPosts() {
     if( this.props.postList ) {
-      return this.props.postList.map( post => (<p>{post.content}</p>));
+      return this.props.postList.map( post => (<PostContainer post={post}/>));
     } else {
       return (
         <p>No new posts.</p>
@@ -22,7 +23,7 @@ export default class PostFeed extends React.Component {
 
   render() {
     return (
-      <div className="PostFeed">
+      <div className="PostFeedContainer">
         {this.renderPosts()}
       </div>
     );

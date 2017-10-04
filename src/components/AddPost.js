@@ -6,7 +6,6 @@
 import React from 'react';
 import {firebaseDB, addPost} from '../Firebase';
 
-
 export default class AddPost extends React.Component {
   constructor(props) {
     super(props);
@@ -21,12 +20,12 @@ export default class AddPost extends React.Component {
   render() {
     return (
       // Renders a posting form
-      <div className="AddPost">
+      <div className="AddPostContainer">
         <h3 className="AddPostTitle">Add Post</h3>
         <form onSubmit={this.submitPost.bind(this)}>
           <textarea cols="25" rows="7" ref="message"></textarea>
           <br/>
-          <button>Post</button>
+          <button className="NewPostButton">Post</button>
         </form>
       </div>
     );

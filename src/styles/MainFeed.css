@@ -1,0 +1,31 @@
+.FeedContainer {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.AddPostContainer{
+  flex:1 auto;
+  order:1;
+}
+
+.PostFeedContainer {
+  flex: 2 0px;
+  order: 2;
+}
+
+.PostContainer {
+  display: flex;
+  flex-direction: column;
+  border:1px solid black;
+  margin:1rem;
+}
+
+.PostContainer--Title {
+  border-bottom: 1px solid black;
+}
+
+.NewPostButton {
+  padding: 20px;
+  border: 1px solid black;
+  background-color:white;
+}
