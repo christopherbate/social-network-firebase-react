@@ -7,5 +7,10 @@ import React from 'react';
 import {firebaseDB, addPost} from '../Firebase';
 
 export default class RecommendFeed extends React.Component {
-
+  render() {
+    return (
+      <div className="RecommendFeed">
+      </div>
+    );
+  }
 }

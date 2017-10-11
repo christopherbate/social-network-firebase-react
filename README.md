@@ -1,6 +1,21 @@
 ## Overview
 
-This project is an example of how to create basic social networking functionality with React and Google Firebase.
+This project is an example of how to create social networking functionality with React and Google Firebase utilizing Firebase's Real-Time Database and Google's Cloud Functions. In addition, it aims to implement various machine learning algorithms (running on Cloud Functions) to implement recommendation systems, text suggestions, and so on.
+
+## Features
+
+Basic Functionality
+- User authentication with email/password (complete)
+- Private and Public routes with ReactRouter v4 (complete)
+- Ability to add other Friends as users and view their profiles (75%)
+- A "Main Feed" page that aggregates posts from friends into a single page. (complete)
+- An ability to create your own posts that friends can view.(complete)
+
+Machine Learning Functions (WIP):
+- NLP - semantic grading telling whether a post is positive or negative
+- NLP - hash-tag suggestion based on language modeling / summarization
+- NLP - recommendation engine to determine which posts appear on user's main feed
+
 
 ## Installation / Use
 
@@ -13,14 +28,6 @@ You can take a look at the "src" folder for how this project was structured, or 
 Dependencies: react-router-dom, firebase, firebase-tools
 
 You must add a file called "FBConfig.js" to the "/src/" folder that creates a default export of your Firebase Configuration variables (you get this from your Firebase console).
-
-## Features
-
-- User authentication with email/password
-- Private and Public routes with ReactRouter v4
-- Ability to add other Friends as users and view their public profiles
-- A "Main Feed" page that aggregates posts from friends into a single page.
-- An ability to create your own posts that friends can view.
 
 # Database structure
 
@@ -60,4 +67,4 @@ The user can add hashtags to anywhere in the message area. Upon uploading, a clo
 ## /hashtags/{hashTagID}/
 
 HashtagIDs are formed by performing a hash on the hashtag string.
-The node for every hashtagID contains a list of postIDs (possibly userIDs depending on privacy settings of users) that had that hashtag in their post data. 
+The node for every hashtagID contains a list of postIDs (possibly userIDs depending on privacy settings of users) that had that hashtag in their post data.
