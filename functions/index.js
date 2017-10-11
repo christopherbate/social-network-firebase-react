@@ -131,6 +131,15 @@ exports.processPost = functions.database.ref('/posts/{userID}/{postID}').onCreat
       snapshot.forEach( (childSnapshot) => {
         var friendID = childSnapshot.val().friendID;
         console.log("Adding post to friend: " + friendID );
+        var friendFeedRef = db.ref('/userinfo/' + friendID + '/feedList');
+        var newPost = friendFeedRef.push();
+        newPost.set({
+          userID: userID,
+          postID: postID,
+          author: author,
+          content: postInfo.content,
+          timeStamp: postInfo.timeStamp
+        });
       });
     });
   }
