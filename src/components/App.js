@@ -73,11 +73,11 @@ class App extends Component {
 
           // Set the listener for postList
           // TODO: fix the time stamp stuff
-          firebaseDB.ref('userinfo/' + firebaseAuth.currentUser.uid + '/feedList/').orderByChild("timeStamp")
+          firebaseDB.ref('userinfo/' + firebaseAuth.currentUser.uid + '/feedList/').orderByKey()
           .on( "value", snapshot=> {
             let postList = [];
             snapshot.forEach( child => {
-              postList.push(child.val());
+              postList.unshift(child.val());
             });
             this.setState({postList:postList});
           });

@@ -126,6 +126,8 @@ exports.processPost = functions.database.ref('/posts/{userID}/{postID}').onCreat
       });
     });
 
+    // Perform processing on the post.
+
     // Add the post to the users' friends postLists
     friendsRef.once('value').then((snapshot)=> {
       snapshot.forEach( (childSnapshot) => {

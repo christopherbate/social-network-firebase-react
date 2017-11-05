@@ -10,7 +10,7 @@ export const firebaseAuth = firebase.auth();
 export const firebaseDB = firebase.database();
 
 // Signup user.
-export const createFBUser = function(email,password,username,errorCB) {
+export const createFBUser = function(email,password,username) {
   firebase.auth().createUserWithEmailAndPassword(email,password).then( (user) => {
 
     // TODO: Cloud function

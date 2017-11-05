@@ -17,7 +17,8 @@ export default class PostContainer extends React.Component {
           <p>Post by: {this.props.post.author}</p>
         </div>
         <div className="PostContainer--Body">
-          <p>{this.props.post.content}</p>
+          <p>Content: {this.props.post.content}</p>
+          <p>Date: </p>
         </div>
       </div>
     );
